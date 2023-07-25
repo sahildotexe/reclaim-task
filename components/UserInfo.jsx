@@ -84,7 +84,7 @@ export default function UserInfo() {
     document.getElementsByName("providers").forEach((option) => {
       providers.push(option.value);
     });
-    const res = await fetch("http://localhost:3000/api/project", {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/project`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -101,7 +101,7 @@ export default function UserInfo() {
   };
 
   const deleteApp = async (id) => {
-    const res = await fetch("http://localhost:3000/api/user", {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +109,7 @@ export default function UserInfo() {
       },
     });
     const userData = await res.json();
-    await fetch(`http://localhost:3000/api/project/${userData._id}/${id}`, {
+    await fetch(`${process.env.NEXTAUTH_URL}/api/project/${userData._id}/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -120,19 +120,18 @@ export default function UserInfo() {
   };
 
   const handleEdit = async (editSelected) => {
-
     const providers = [];
     editedProviders.forEach((provider) => {
       providers.push(provider.value);
     });
-    if(editedName === "") {
+    if (editedName === "") {
       setEditedName(editSelected.name);
     }
     const editedApp = {
       name: editedName,
       provider: providers,
-    }
-    const res = await fetch("http://localhost:3000/api/user", {
+    };
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -140,15 +139,18 @@ export default function UserInfo() {
       },
     });
     const userData = await res.json();
-    await fetch(`http://localhost:3000/api/project/${userData._id}/${editSelected._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(editedApp)
-    });
+    await fetch(
+      `${process.env.NEXTAUTH_URL}/api/project/${userData._id}/${editSelected._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedApp),
+      }
+    );
     const userAppsFetch = await fetch(
-      `http://localhost:3000/api/project/${userData._id}`
+      `${process.env.NEXTAUTH_URL}/api/project/${userData._id}`
     );
     const data = await userAppsFetch.json();
     setUserApps(data);
@@ -160,7 +162,6 @@ export default function UserInfo() {
       setDeleteSelected(app);
       onDeleteOpen();
     };
-  
   };
 
   const editHandler = (app) => {
@@ -184,7 +185,7 @@ export default function UserInfo() {
     const fetchUser = async () => {
       setLoading(true);
       if (status === "authenticated") {
-        const res = await fetch("http://localhost:3000/api/user", {
+        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -193,7 +194,7 @@ export default function UserInfo() {
         });
         const userData = await res.json();
         const userAppsFetch = await fetch(
-          `http://localhost:3000/api/project/${userData._id}`
+          `${process.env.NEXTAUTH_URL}/api/project/${userData._id}`
         );
         const data = await userAppsFetch.json();
         setUserApps(data);
@@ -309,7 +310,8 @@ export default function UserInfo() {
                             <ModalHeader>Delete App</ModalHeader>
                             <ModalCloseButton />
                             <ModalBody>
-                              Are you sure you want to delete <b>{deleteSelected.name}</b> app?
+                              Are you sure you want to delete{" "}
+                              <b>{deleteSelected.name}</b> app?
                             </ModalBody>
                             <ModalFooter>
                               <Button
@@ -345,7 +347,9 @@ export default function UserInfo() {
                                 <FormLabel>Name {app.name}</FormLabel>
                                 <Input
                                   type="text"
-                                  onChange={(e) => setEditedName(e.target.value)}
+                                  onChange={(e) =>
+                                    setEditedName(e.target.value)
+                                  }
                                   defaultValue={editSelected.name}
                                   required
                                 />
