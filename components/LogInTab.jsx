@@ -7,9 +7,6 @@ import SignInBtn from "./SignInBtn";
 export default function LogInTab() {
   return (
     <div>
-        <div className="flex justify-center items-center my-2">
-            or
-        </div>
         <SignInBtn />
     </div>
   );
