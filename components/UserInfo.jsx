@@ -41,6 +41,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import { CopyIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import LogInTab from "./LogInTab";
 
 export default function UserInfo() {
   const { status, data: session } = useSession();
@@ -399,6 +400,6 @@ export default function UserInfo() {
       </div>
     );
   } else {
-    return <SignInBtn />;
+    return <LogInTab />;
   }
 }

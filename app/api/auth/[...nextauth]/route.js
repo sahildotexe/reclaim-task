@@ -23,6 +23,7 @@ const authOptions = {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
+                "Content-Length": "15 + name.length + email.length",
               },
               body: JSON.stringify({
                 name,
