@@ -17,16 +17,14 @@ const authOptions = {
         try {
           await connectMongoDB();
           const userExists = await User.findOne({ email });
-
+          console.log(userExists)
           if (!userExists) {
+            console.log("user does not exist, creating...");
             const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
               method: "POST",
-              body: JSON.stringify({
-                name,
-                email,
-              }),
+              body: JSON.stringify({ name, email }),
             });
-
+            console.log(res);
             if (res.ok) {
               return user;
             }
