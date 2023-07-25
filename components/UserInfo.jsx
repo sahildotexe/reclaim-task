@@ -84,7 +84,7 @@ export default function UserInfo() {
     document.getElementsByName("providers").forEach((option) => {
       providers.push(option.value);
     });
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/project`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/project`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -101,7 +101,7 @@ export default function UserInfo() {
   };
 
   const deleteApp = async (id) => {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +109,7 @@ export default function UserInfo() {
       },
     });
     const userData = await res.json();
-    await fetch(`${process.env.NEXTAUTH_URL}/api/project/${userData._id}/${id}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/project/${userData._id}/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export default function UserInfo() {
       name: editedName,
       provider: providers,
     };
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -140,7 +140,7 @@ export default function UserInfo() {
     });
     const userData = await res.json();
     await fetch(
-      `${process.env.NEXTAUTH_URL}/api/project/${userData._id}/${editSelected._id}`,
+      `${process.env.NEXT_PUBLIC_BASEURL}/api/project/${userData._id}/${editSelected._id}`,
       {
         method: "PUT",
         headers: {
@@ -150,7 +150,7 @@ export default function UserInfo() {
       }
     );
     const userAppsFetch = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/project/${userData._id}`
+      `${process.env.NEXT_PUBLIC_BASEURL}/api/project/${userData._id}`
     );
     const data = await userAppsFetch.json();
     setUserApps(data);
@@ -185,7 +185,7 @@ export default function UserInfo() {
     const fetchUser = async () => {
       setLoading(true);
       if (status === "authenticated") {
-        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/user`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -194,7 +194,7 @@ export default function UserInfo() {
         });
         const userData = await res.json();
         const userAppsFetch = await fetch(
-          `${process.env.NEXTAUTH_URL}/api/project/${userData._id}`
+          `${process.env.NEXT_PUBLIC_BASEURL}/api/project/${userData._id}`
         );
         const data = await userAppsFetch.json();
         setUserApps(data);
