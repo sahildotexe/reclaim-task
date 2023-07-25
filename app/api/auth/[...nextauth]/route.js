@@ -21,10 +21,6 @@ const authOptions = {
           if (!userExists) {
             const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user`, {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Content-Length": "15 + name.length + email.length",
-              },
               body: JSON.stringify({
                 name,
                 email,
